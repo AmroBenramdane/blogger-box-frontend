@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4">Blogger-Box</h2>
+
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="needs-validation">
+        <!-- Titre -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            formControlName="title"
+            [ngClass]="{'is-invalid': title?.invalid && (title?.dirty || title?.touched),
+                        'is-valid': title?.valid && (title?.dirty || title?.touched)}"
+          >
+          <div *ngIf="title?.invalid && (title?.dirty || title?.touched)" class="invalid-feedback">
+            <div *ngIf="title?.errors?.['required']">Title is required</div>
+            <div *ngIf="title?.errors?.['minlength']">Title should be at least 5 characters</div>
+            <div *ngIf="title?.errors?.['maxlength']">Title should not exceed 150 characters</div>
+          </div>
+        </div>
+
+        <!-- Catégorie -->
+        <div class="mb-3">
+          <label for="category" class="form-label">Category:</label>
+          <select
+            class="form-select"
+            id="category"
+            formControlName="categoryId"
+            [ngClass]="{'is-invalid': categoryId?.invalid && (categoryId?.dirty || categoryId?.touched),
+                        'is-valid': categoryId?.valid && (categoryId?.dirty || categoryId?.touched)}"
+          >
+            <option value="">Select a category</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+          <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="invalid-feedback">
+            <div *ngIf="categoryId?.errors?.['required']">Category is required</div>
+          </div>
+        </div>
+
+        <!-- Contenu -->
+        <div class="mb-3">
+          <label for="content" class="form-label">Content:</label>
+          <textarea
+            class="form-control"
+            id="content"
+            rows="6"
+            formControlName="content"
+            [ngClass]="{'is-invalid': content?.invalid && (content?.dirty || content?.touched),
+                        'is-valid': content?.valid && (content?.dirty || content?.touched)}"
+          ></textarea>
+          <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="invalid-feedback">
+            <div *ngIf="content?.errors?.['required']">Content is required</div>
+            <div *ngIf="content?.errors?.['maxlength']">Content should not exceed 2500 characters</div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" [routerLink]="['/']">Close</button>
+          <button type="submit" class="btn btn-success" [disabled]="submitting">
+            Post message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
